@@ -5,4 +5,8 @@ import ar.utn.frbb.tup.persistence.exception.ProfesorAlreadyExistsException;
 
 public interface ProfesorDao {
     Profesor crearProfesor(Profesor profesor) throws ProfesorAlreadyExistsException;
+
+    Profesor updateProfesor(Integer idProfesor, Profesor profesor);
+
+    Profesor getProfesorById(Integer idProfesor);
 }
