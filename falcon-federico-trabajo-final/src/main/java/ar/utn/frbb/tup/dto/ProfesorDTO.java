@@ -1,24 +1,27 @@
 package ar.utn.frbb.tup.dto;
 
+import ar.utn.frbb.tup.model.Materia;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Setter
 @Getter
 public class ProfesorDTO {
-    private Integer id;
+    private int id;
     private String nombre;
     private String apellido;
     private String titulo;
 
-    // private List<Materia> materiasDictadas;
+    private List<Materia> materiasDictadas;
 
     public ProfesorDTO() {
     }
 
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        return this.id;
     }
 
     @Override

@@ -5,6 +5,7 @@ import ar.utn.frbb.tup.model.Profesor;
 import ar.utn.frbb.tup.persistence.Implementation.ProfesorDaoImplementation;
 import ar.utn.frbb.tup.persistence.ProfesorDao;
 import ar.utn.frbb.tup.persistence.exception.ProfesorAlreadyExistsException;
+import ar.utn.frbb.tup.persistence.exception.ProfesorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ProfesorServiceImplementation implements ProfesorService {
     }
 
     @Override
-    public Profesor modificarProfesor(Integer idProfesor, Map<String, Object> atributos) {
+    public Profesor modificarProfesor(Integer idProfesor, Map<String, Object> atributos) throws ProfesorNotFoundException {
         Profesor profesor = profesorDao.getProfesorById(idProfesor);
 
         for (Map.Entry<String, Object> atributo : atributos.entrySet()) {
@@ -39,6 +40,11 @@ public class ProfesorServiceImplementation implements ProfesorService {
         }
 
         return profesor;
+    }
+
+    @Override
+    public String eliminarProfesor(Integer idProfesor) throws ProfesorNotFoundException {
+        return profesorDao.deleteProfesor(idProfesor);
     }
 
     private void modificarAtributos(String nombreAtributo, Object value, Profesor profesor) {

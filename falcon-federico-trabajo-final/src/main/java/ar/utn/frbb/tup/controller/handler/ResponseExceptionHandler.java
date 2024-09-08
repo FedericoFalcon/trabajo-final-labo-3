@@ -1,6 +1,8 @@
 package ar.utn.frbb.tup.controller.handler;
 
+import ar.utn.frbb.tup.persistence.exception.MateriaAlreadyExistsException;
 import ar.utn.frbb.tup.persistence.exception.ProfesorAlreadyExistsException;
+import ar.utn.frbb.tup.persistence.exception.ProfesorNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,24 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
             String exceptionMessage = ex.getMessage();
             CustomApiError error = new CustomApiError();
             error.setErrorMessage(exceptionMessage);
-            return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.I_AM_A_TEAPOT, request);
+            return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler(value = {ProfesorNotFoundException.class})
+    protected ResponseEntity<Object> handleProfesorNotFoundException(
+            ProfesorNotFoundException ex, WebRequest request) {
+            String exceptionMessage = ex.getMessage();
+            CustomApiError error = new CustomApiError();
+            error.setErrorMessage(exceptionMessage);
+            return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler(value = {MateriaAlreadyExistsException.class})
+    protected ResponseEntity<Object> handleMateriaAlreadyExistsException(
+            MateriaAlreadyExistsException ex, WebRequest request) {
+        String exceptionMessage = ex.getMessage();
+        CustomApiError error = new CustomApiError();
+        error.setErrorMessage(exceptionMessage);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
     }
 }

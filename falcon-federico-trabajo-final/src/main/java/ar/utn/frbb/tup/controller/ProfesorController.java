@@ -3,6 +3,7 @@ import ar.utn.frbb.tup.business.ProfesorService;
 import ar.utn.frbb.tup.dto.ProfesorDTO;
 import ar.utn.frbb.tup.model.Profesor;
 import ar.utn.frbb.tup.persistence.exception.ProfesorAlreadyExistsException;
+import ar.utn.frbb.tup.persistence.exception.ProfesorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -21,8 +22,13 @@ public class ProfesorController {
     }
 
     @PatchMapping("/{idProfesor}")
-    public Profesor modificarProfesor(@PathVariable Integer idProfesor, @RequestBody Map<String,Object> campos) {
+    public Profesor modificarProfesor(@PathVariable Integer idProfesor, @RequestBody Map<String,Object> campos) throws ProfesorNotFoundException {
         return profesorService.modificarProfesor(idProfesor, campos);
+    }
+
+    @DeleteMapping("/{idProfesor}")
+    public String eliminarMateria(@PathVariable Integer idProfesor) throws ProfesorNotFoundException {
+        return profesorService.eliminarProfesor(idProfesor);
     }
 
 }

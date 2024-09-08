@@ -2,15 +2,17 @@ package ar.utn.frbb.tup.model;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 public class Profesor {
-    private Integer id;
+    private int id;
     private String nombre;
     private String apellido;
     private String titulo;
 
-    // private List<Materia> materiasDictadas;
+    private List<Materia> materiasDictadas;
 
     public Profesor() {
     }
@@ -28,7 +30,7 @@ public class Profesor {
 
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        return this.id;
     }
 
     @Override
