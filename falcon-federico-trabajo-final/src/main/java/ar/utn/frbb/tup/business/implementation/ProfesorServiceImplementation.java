@@ -1,15 +1,19 @@
-package ar.utn.frbb.tup.business.Implementation;
+package ar.utn.frbb.tup.business.implementation;
+import ar.utn.frbb.tup.business.MateriaService;
 import ar.utn.frbb.tup.business.ProfesorService;
 import ar.utn.frbb.tup.dto.ProfesorDTO;
+import ar.utn.frbb.tup.model.Materia;
 import ar.utn.frbb.tup.model.Profesor;
-import ar.utn.frbb.tup.persistence.Implementation.ProfesorDaoImplementation;
 import ar.utn.frbb.tup.persistence.ProfesorDao;
+import ar.utn.frbb.tup.persistence.exception.MateriaNotFoundException;
 import ar.utn.frbb.tup.persistence.exception.ProfesorAlreadyExistsException;
 import ar.utn.frbb.tup.persistence.exception.ProfesorNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Comparator;
 
 @Service
 public class ProfesorServiceImplementation implements ProfesorService {
@@ -18,13 +22,14 @@ public class ProfesorServiceImplementation implements ProfesorService {
     ProfesorDao profesorDao;
 
     @Override
-    public Profesor crearProfesor(ProfesorDTO profesorDTO) throws ProfesorAlreadyExistsException {
+    public Profesor crearProfesor(ProfesorDTO profesorDTO) throws ProfesorAlreadyExistsException, MateriaNotFoundException {
         Profesor profesor = new Profesor();
 
         profesor.setId(profesorDTO.getId());
         profesor.setNombre(profesorDTO.getNombre());
         profesor.setApellido(profesorDTO.getApellido());
         profesor.setTitulo(profesorDTO.getTitulo());
+        profesor.setMateriasDictadas(profesorDTO.getMateriasDictadas());
 
         return this.profesorDao.crearProfesor(profesor);
     }
@@ -66,4 +71,13 @@ public class ProfesorServiceImplementation implements ProfesorService {
             }
         }
     }
+
+    @Override
+    public List<Materia> getMateriasProfesor(Integer idProfesor) throws ProfesorNotFoundException, MateriaNotFoundException {
+        List<Materia> listaMaterias = profesorDao.getMateriasProfesor(idProfesor);
+        listaMaterias.sort(Comparator.comparing(Materia::getNombre));
+
+        return listaMaterias;
+    }
+
 }

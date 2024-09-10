@@ -1,8 +1,6 @@
 package ar.utn.frbb.tup.controller.handler;
 
-import ar.utn.frbb.tup.persistence.exception.MateriaAlreadyExistsException;
-import ar.utn.frbb.tup.persistence.exception.ProfesorAlreadyExistsException;
-import ar.utn.frbb.tup.persistence.exception.ProfesorNotFoundException;
+import ar.utn.frbb.tup.persistence.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +37,32 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         CustomApiError error = new CustomApiError();
         error.setErrorMessage(exceptionMessage);
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
+
+    @ExceptionHandler(value = {MateriaNotFoundException.class})
+    protected ResponseEntity<Object> handleMateriaNotFoundException(
+            MateriaNotFoundException ex, WebRequest request) {
+        String exceptionMessage = ex.getMessage();
+        CustomApiError error = new CustomApiError();
+        error.setErrorMessage(exceptionMessage);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    }
+
+    @ExceptionHandler (value = {AlumnoAlreadyExistsException.class})
+    protected ResponseEntity<Object> handleAlumnoAlreadyExistsException(
+            AlumnoAlreadyExistsException ex, WebRequest request) {
+        String exceptionMessage = ex.getMessage();
+        CustomApiError error = new CustomApiError();
+        error.setErrorMessage(exceptionMessage);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler (value = {AlumnoNotFoundException.class})
+    protected ResponseEntity<Object> AlumnoNotFoundException(
+            AlumnoNotFoundException ex, WebRequest request) {
+        String exceptionMessage = ex.getMessage();
+        CustomApiError error = new CustomApiError();
+        error.setErrorMessage(exceptionMessage);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }

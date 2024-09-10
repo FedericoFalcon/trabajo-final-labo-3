@@ -1,4 +1,4 @@
-package ar.utn.frbb.tup.business.Implementation;
+package ar.utn.frbb.tup.business.implementation;
 
 import ar.utn.frbb.tup.business.MateriaService;
 
@@ -6,6 +6,7 @@ import ar.utn.frbb.tup.dto.MateriaDTO;
 import ar.utn.frbb.tup.model.Materia;
 import ar.utn.frbb.tup.persistence.MateriaDao;
 import ar.utn.frbb.tup.persistence.exception.MateriaAlreadyExistsException;
+import ar.utn.frbb.tup.persistence.exception.MateriaNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,4 +29,20 @@ public class MateriaServiceImplementation implements MateriaService {
         return this.materiaDao.crearMateria(materia);
     }
 
+    @Override
+    public String eliminarMateria(Integer idMateria) throws MateriaNotFoundException {
+        return materiaDao.deleteMateria(idMateria);
+    }
+
+    @Override
+    public Materia getMateriaById(Integer idMateria) {
+        return materiaDao.getMateriaById(idMateria);
+    }
+
+    @Override
+    public Materia setProfesor(Integer idMateria, Integer idProfesor) {
+        Materia m = materiaDao.getMateriaById(idMateria);
+                m.setProfesorId(idProfesor);
+                return  m;
+    }
 }

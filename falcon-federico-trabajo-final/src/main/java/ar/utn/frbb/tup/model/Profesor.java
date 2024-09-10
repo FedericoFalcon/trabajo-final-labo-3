@@ -12,7 +12,7 @@ public class Profesor {
     private String apellido;
     private String titulo;
 
-    private List<Materia> materiasDictadas;
+    private List<Integer> materiasDictadas;
 
     public Profesor() {
     }
