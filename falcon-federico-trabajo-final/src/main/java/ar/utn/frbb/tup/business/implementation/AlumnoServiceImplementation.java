@@ -8,6 +8,7 @@ import ar.utn.frbb.tup.persistence.AlumnoDao;
 import ar.utn.frbb.tup.persistence.AsignaturaDao;
 import ar.utn.frbb.tup.persistence.exception.AlumnoAlreadyExistsException;
 import ar.utn.frbb.tup.persistence.exception.AlumnoNotFoundException;
+import ar.utn.frbb.tup.persistence.exception.CorrelatividadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,6 @@ public class AlumnoServiceImplementation implements AlumnoService {
     @Autowired
     AsignaturaService asignaturaService;
 
-    @Autowired
-    CarreraService carreraService;
-
-    @Autowired
-    MateriaService materiaService;
-
     @Override
     public Alumno crearAlumno(AlumnoDTO alumnoDTO) throws AlumnoAlreadyExistsException {
         Alumno a = new Alumno();
@@ -41,6 +36,18 @@ public class AlumnoServiceImplementation implements AlumnoService {
         a.setNombre(alumnoDTO.getNombre());
         a.setApellido(alumnoDTO.getApellido());
         a.setDni(alumnoDTO.getDni());
+
+        List<Asignatura> asignaturas = new ArrayList<>();
+        for (Integer idMateria: alumnoDTO.getMaterias()) {
+            AsignaturaDTO asignatura = new AsignaturaDTO();
+            asignatura.setId(idMateria);
+            asignatura.setEstado(EstadoAsignatura.NO_CURSADA);
+            asignatura.setMateriaId(idMateria);
+            Asignatura asig = asignaturaService.crearAsignatura(asignatura);
+            asignaturas.add(asig);
+        }
+
+        a.setAsignaturas(asignaturas);
 
         return alumnoDao.createAlumno(a);
     }
@@ -64,18 +71,33 @@ public class AlumnoServiceImplementation implements AlumnoService {
     }
 
     @Override
-    public Alumno cambiarEstadoAsignatura(Integer idAlumno, Integer idAsignatura, AsignaturaDTO nuevoEstado) throws AlumnoNotFoundException {
+    public Alumno cambiarEstadoAsignatura(Integer idAlumno, Integer idAsignatura, AsignaturaDTO nuevoEstado) throws AlumnoNotFoundException, CorrelatividadException {
         Alumno alumno = alumnoDao.getAlumnoById(idAlumno);
         Asignatura asignatura = asignaturaDao.getAsignaturaById(idAsignatura);
 
         if (alumno != null && asignatura != null) {
+            List<Integer> correlatividades = asignatura.getMateria().getCorrelatividades(); // 1, 2
+
+            List<Asignatura> asignaturasAlumno = alumno.getAsignaturas(); // asignaturas
+
+            if (nuevoEstado.getEstado() == EstadoAsignatura.APROBADA){
+                for (Integer correlativa : correlatividades) {
+                    for (Asignatura asignaturaAlumno : asignaturasAlumno) {
+                        if (correlativa == asignaturaAlumno.getMateria().getId()) {
+                            if (asignaturaAlumno.getEstado() != EstadoAsignatura.APROBADA) {
+                                throw new CorrelatividadException("No cumple con los requisitos de correlatividades");
+                            }
+                        }
+                    }
+                }
+            }
+
             asignatura.setEstado(nuevoEstado.getEstado());
             asignatura.setNota(nuevoEstado.getNota());
             return alumno;
         }
         return null;
     }
-
 
     private void modificarAtributos(String nombreAtributo, Object value, Alumno alumno) {
         switch (nombreAtributo) {
@@ -94,19 +116,6 @@ public class AlumnoServiceImplementation implements AlumnoService {
                     alumno.setDni((Integer) value);
                 }
             }
-            case "asignaturas" -> {
-                if (value instanceof List) {
-                    agregarAsignaturas(alumno, (List<Integer>) value);
-                }
-            }
-        }
-    }
-
-    private void agregarAsignaturas(Alumno alumno, List<Integer> idMaterias) {
-        for (Integer idMateria: idMaterias) {
-            Asignatura asignatura = new Asignatura();
-            asignatura.setMateria(materiaService.getMateriaById(idMateria));
-            alumno.getAsignaturas().add(asignatura);
         }
     }
 }

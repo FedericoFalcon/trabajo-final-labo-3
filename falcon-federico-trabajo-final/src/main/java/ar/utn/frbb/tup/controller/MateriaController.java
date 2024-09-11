@@ -33,5 +33,4 @@ public class MateriaController {
     public String eliminarMateria(@PathVariable Integer idMateria) throws MateriaNotFoundException {
         return materiaService.eliminarMateria(idMateria);
     }
-
 }

@@ -6,4 +6,5 @@ import ar.utn.frbb.tup.persistence.exception.AlumnoNotFoundException;
 
 public interface AsignaturaDao {
     Asignatura getAsignaturaById(Integer idAsignatura);
+    Asignatura crearAsignatura(Asignatura asignatura);
 }

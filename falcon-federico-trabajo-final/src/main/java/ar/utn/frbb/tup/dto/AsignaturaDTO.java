@@ -8,11 +8,13 @@ import lombok.Setter;
 @Getter
 public class AsignaturaDTO {
     private int id;
+    private int materiaId;
     private EstadoAsignatura estado;
     private Integer nota;
 
-    public AsignaturaDTO(int id, EstadoAsignatura estado, Integer nota) {
+    public AsignaturaDTO(int id, int materiaId, EstadoAsignatura estado, Integer nota) {
         this.id = id;
+        this.materiaId = materiaId;
         this.estado = estado;
         this.nota = nota;
     }

@@ -65,4 +65,13 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         error.setErrorMessage(exceptionMessage);
         return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
+
+    @ExceptionHandler (value = {CorrelatividadException.class})
+    protected ResponseEntity<Object> CorrelatividadException(
+            CorrelatividadException ex, WebRequest request) {
+        String exceptionMessage = ex.getMessage();
+        CustomApiError error = new CustomApiError();
+        error.setErrorMessage(exceptionMessage);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
 }

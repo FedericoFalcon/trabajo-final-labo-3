@@ -20,4 +20,10 @@ public class AsignaturaDaoImplementation implements AsignaturaDao {
     public Asignatura getAsignaturaById(Integer idAsignatura) {
         return repoAsignaturas.get(idAsignatura);
     }
+
+    @Override
+    public Asignatura crearAsignatura(Asignatura asignatura) {
+        repoAsignaturas.put(asignatura.getId(), asignatura);
+        return asignatura;
+    }
 }

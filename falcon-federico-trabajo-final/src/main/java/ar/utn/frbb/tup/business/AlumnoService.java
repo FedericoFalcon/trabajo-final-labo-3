@@ -5,6 +5,7 @@ import ar.utn.frbb.tup.dto.AsignaturaDTO;
 import ar.utn.frbb.tup.model.Alumno;
 import ar.utn.frbb.tup.persistence.exception.AlumnoAlreadyExistsException;
 import ar.utn.frbb.tup.persistence.exception.AlumnoNotFoundException;
+import ar.utn.frbb.tup.persistence.exception.CorrelatividadException;
 
 import java.util.Map;
 
@@ -15,5 +16,5 @@ public interface AlumnoService {
 
     String eliminarAlumno(Integer idAlumno) throws AlumnoNotFoundException;
 
-    Alumno cambiarEstadoAsignatura(Integer idAlumno, Integer idAsignatura, AsignaturaDTO nuevoEstado) throws AlumnoNotFoundException;
+    Alumno cambiarEstadoAsignatura(Integer idAlumno, Integer idAsignatura, AsignaturaDTO nuevoEstado) throws AlumnoNotFoundException, CorrelatividadException;
 }

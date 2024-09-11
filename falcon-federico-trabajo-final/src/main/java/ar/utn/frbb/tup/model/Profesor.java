@@ -7,7 +7,7 @@ import java.util.List;
 @Setter
 @Getter
 public class Profesor {
-    private int id;
+    private Integer id;
     private String nombre;
     private String apellido;
     private String titulo;

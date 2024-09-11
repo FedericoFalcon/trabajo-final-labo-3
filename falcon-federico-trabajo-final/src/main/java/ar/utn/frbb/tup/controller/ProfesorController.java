@@ -33,8 +33,8 @@ public class ProfesorController {
         return profesorService.eliminarProfesor(idProfesor);
     }
 
-    @GetMapping("/{idProfesor}/materias")
-    public List<Materia> getMateriasProfesor(@PathVariable Integer idProfesor) throws ProfesorNotFoundException, MateriaNotFoundException {
+    @GetMapping("/materias")
+    public List<Materia> getMateriasProfesor(@RequestParam Integer idProfesor) throws ProfesorNotFoundException, MateriaNotFoundException {
         return profesorService.getMateriasProfesor(idProfesor);
     }
 

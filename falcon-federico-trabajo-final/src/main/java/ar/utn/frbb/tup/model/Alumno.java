@@ -12,9 +12,9 @@ public class Alumno {
     private String nombre;
     private String apellido;
     private Integer dni;
-    private List<Integer> asignaturas;
+    private List<Asignatura> asignaturas;
 
-    public Alumno(Integer id, String nombre, String apellido, Integer dni, List<Integer> asignaturas) {
+    public Alumno(Integer id, String nombre, String apellido, Integer dni, List<Asignatura> asignaturas) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;

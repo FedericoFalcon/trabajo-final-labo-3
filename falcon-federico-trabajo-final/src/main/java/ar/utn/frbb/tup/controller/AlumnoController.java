@@ -6,6 +6,7 @@ import ar.utn.frbb.tup.dto.AsignaturaDTO;
 import ar.utn.frbb.tup.model.Alumno;
 import ar.utn.frbb.tup.persistence.exception.AlumnoAlreadyExistsException;
 import ar.utn.frbb.tup.persistence.exception.AlumnoNotFoundException;
+import ar.utn.frbb.tup.persistence.exception.CorrelatividadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class AlumnoController {
         return alumnoService.crearAlumno(alumnoDTO);
     }
 
-    @PatchMapping("/{idAlumno}")
+    @PutMapping("/{idAlumno}")
     public Alumno modificarAlumno(@PathVariable Integer idAlumno, @RequestBody Map<String,Object> campos) throws AlumnoNotFoundException {
         return alumnoService.modificarAlumno(idAlumno, campos);
     }
@@ -35,7 +36,7 @@ public class AlumnoController {
     public Alumno cambiarEstadoAsignatura(
             @PathVariable Integer idAlumno,
             @PathVariable Integer idAsignatura,
-            @RequestBody AsignaturaDTO nuevoEstado) throws AlumnoNotFoundException{
+            @RequestBody AsignaturaDTO nuevoEstado) throws AlumnoNotFoundException, CorrelatividadException {
         return alumnoService.cambiarEstadoAsignatura(idAlumno, idAsignatura, nuevoEstado);
     }
 }

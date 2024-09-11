@@ -4,6 +4,8 @@ package ar.utn.frbb.tup.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
 public class AlumnoDTO {
@@ -11,6 +13,8 @@ public class AlumnoDTO {
     private String nombre;
     private String apellido;
     private Integer dni;
+
+    private List<Integer> materias;
 
     @Override
     public int hashCode() {
@@ -24,11 +28,12 @@ public class AlumnoDTO {
 
     @Override
     public String toString() {
-        return "AlumnoDto{" +
-                "idAlumno=" + id +
+        return "AlumnoDTO{" +
+                "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", dni=" + dni +
+                ", asignaturas=" + materias +
                 '}';
     }
 }
