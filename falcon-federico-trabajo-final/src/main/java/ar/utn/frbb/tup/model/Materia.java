@@ -13,13 +13,13 @@ public class Materia {
     private String nombre;
     private int anio;
     private int cuatrimestre;
-    private int profesorId;
+    private Integer profesorId;
 
     private List<Integer> correlatividades;
 
     public Materia(){}
 
-    public Materia(String nombre, int anio, int cuatrimestre, int profesorId) {
+    public Materia(String nombre, int anio, int cuatrimestre, Integer profesorId) {
         this.anio = anio;
         this.cuatrimestre = cuatrimestre;
         this.nombre = nombre;

@@ -5,10 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Setter
 @Getter
 public class ProfesorDTO {
+    private static final AtomicInteger contadorId = new AtomicInteger(1);
+
     private Integer id;
     private String nombre;
     private String apellido;
@@ -17,6 +20,7 @@ public class ProfesorDTO {
     private List<Integer> materiasDictadas;
 
     public ProfesorDTO() {
+        this.id = contadorId.getAndIncrement();
     }
 
     @Override

@@ -40,7 +40,6 @@ public class AlumnoServiceImplementation implements AlumnoService {
         List<Asignatura> asignaturas = new ArrayList<>();
         for (Integer idMateria: alumnoDTO.getMaterias()) {
             AsignaturaDTO asignatura = new AsignaturaDTO();
-            asignatura.setId(idMateria);
             asignatura.setEstado(EstadoAsignatura.NO_CURSADA);
             asignatura.setMateriaId(idMateria);
             Asignatura asig = asignaturaService.crearAsignatura(asignatura);

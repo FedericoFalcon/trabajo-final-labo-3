@@ -7,19 +7,24 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Setter
 @Getter
 public class MateriaDTO {
+    private static final AtomicInteger contadorId = new AtomicInteger(1); // Contador estático
+
     private int id;
     private String nombre;
     private int anio;
     private int cuatrimestre;
-    private int profesorId;
+    private Integer profesorId;
 
     private List<Integer> correlatividades;
 
-    public MateriaDTO(){}
+    public MateriaDTO(){
+        this.id = contadorId.getAndIncrement();
+    }
 
     @Override
     public String toString() {
